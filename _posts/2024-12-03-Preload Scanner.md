@@ -85,7 +85,7 @@ tags:
     (범위는 브라우저마자 조금씩 다를 수 있지만 스크롤 할 때 이미지 로드에 문제가 없을만큼 설정되어 있습니다)
   - `eager` 옵션을 설정할 경우, loading 속성의 default 값으로 이미지가 뷰포트(viewport) 외부에 있더라도 즉시 로드 됩니다.
 - `background-image` 등을 통한 css 속성으로 이미지를 로드하는 경우에는, `JavaScript`를 통해 지연로딩을 구현해야 합니다.
-  - [데이터 속성(data-\*)](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-\*)에 image url을 설정해주고 [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) 를 사용하여 엘리먼트가 뷰포트(viewport) 범위에 들어오는 경우 데이터 속성에 있는 url을 실제 style backogrund-image로 설정해줍니다.
+  - [데이터 속성(data-\*)](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*){:target="_blank"}에 image url을 설정해주고 [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API){:target="_blank"} 를 사용하여 엘리먼트가 뷰포트(viewport) 범위에 들어오는 경우 데이터 속성에 있는 url을 실제 style backogrund-image로 설정해줍니다.
 
 ```tsx
 // <img> 엘리먼트의 경우...
