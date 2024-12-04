@@ -14,7 +14,7 @@ tags:
 
 ## [contenthash]
 ### [contenthash]를 쓰는 이유는?
-- Webpack에서 번들 시 contenthash를 사용하는 주된 이유는 파일 [캐싱](https://webpack.js.org/guides/caching/#output-filenames) 효율성을 극대화하기 위해서입니다.
+- Webpack에서 번들 시 contenthash를 사용하는 주된 이유는 파일 [캐싱](https://webpack.js.org/guides/caching/#output-filenames){:target="_blank"} 효율성을 극대화하기 위해서입니다.
 
 ### 브라우저 캐싱 최적화
 - 브라우저는 파일 URL이 동일한 경우, 기존에 다운로드한 파일을 캐시에서 불러옵니다. 
@@ -42,7 +42,7 @@ contenthash는 파일의 내용을 기반으로 해시값을 생성하기 때문
 
 Bundle 파일의 내용을 비교해보면 `/var/folders/nl/~` 하위의 폴더명이 변경되는 걸 확인할 수 있습니다.  
 이 폴더의 역할은 Mac OS의 임시 파일 & 캐시 파일 저장인데 서비스에 필요없는 영역입니다.  
-원인은 환경변수를 React Context에서 사용할 수 있도록 정의하는 [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) 설정 이였습니다.
+원인은 환경변수를 React Context에서 사용할 수 있도록 정의하는 [DefinePlugin](https://webpack.js.org/plugins/define-plugin/){:target="_blank"} 설정 이였습니다.
 
 ### DefinePlugin 설정
 > 문제가 된 DefinePlugin 설정
