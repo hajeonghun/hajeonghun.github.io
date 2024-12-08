@@ -229,10 +229,10 @@ console.log('5: End'); // Run Script (매크로 태스크)
     ```javascript
     console.log('Start');
 
-    setTimeout(() => console.log('Timeout'), 1000);
+    setTimeout(() => console.log('Timeout'), 1000); // 타이머 1초 설정
     
     const now = Date.now();
-    while (Date.now() - now < 1500) {} // 1.5초 동안 차단
+    while (Date.now() - now < 15000) {} // 15초 동안 메인스레드 차단
     
     console.log('End');
     ```
