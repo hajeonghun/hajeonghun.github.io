@@ -115,7 +115,7 @@ console.log("Task 4");</code></pre>
 
 </style>
 
-<script>
+<script type="module">
     const callStack = document.getElementById("demo-call-stack");
     const webApi = document.getElementById("demo-web-api");
     const macroTask = document.getElementById("demo-macro-task");
@@ -125,6 +125,7 @@ console.log("Task 4");</code></pre>
     const prevStepButton = document.getElementById("demo-prev-step");
     const nextStepButton = document.getElementById("demo-next-step");
 
+    console.log({callStack, webApi, macroTask, microTask, codeArea, logArea, prevStepButton, nextStepButton})
     const codeLines = [
       { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: [] },
       { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: ["Task 1"] },
