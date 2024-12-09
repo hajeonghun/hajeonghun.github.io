@@ -1,0 +1,188 @@
+<div class="event-loop-container">
+  <h3>Event Loop 시각화</h3>
+  <div class="code-area">
+    <pre><code id="demo-code-area">console.log("Task 1");
+setTimeout(() => console.log("Task 2"), 0);
+Promise.resolve().then(() => console.log("Task 3"));
+console.log("Task 4");</code></pre>
+  </div>
+
+  <button id="demo-prev-step">Prev Step</button>
+  <button id="demo-next-step">Next Step</button>
+
+  <h3>Log</h3>
+  <div class="code-area">
+    <pre><code id="demo-log-area"></code></pre>
+  </div>
+
+
+  <div class="loop-sections">
+    <div class="section stack">
+      <h3>Call Stack</h3>
+      <ul id="demo-call-stack" style="padding-left: 0"></ul>
+    </div>
+    <div class="section api">
+      <h3>Web API</h3>
+      <ul id="demo-web-api"  style="padding-left: 0"></ul>
+    </div>
+    <div class="section macro-task">
+      <h3>Macro Task Queue</h3>
+      <ul id="demo-macro-task"  style="padding-left: 0"></ul>
+    </div>
+    <div class="section micro-task">
+      <h3>Micro Task Queue</h3>
+      <ul id="demo-micro-task"  style="padding-left: 0"></ul>
+    </div>
+  </div>
+
+
+</div>
+<style>
+  .code-area {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: auto;
+  }
+
+  pre {
+    margin: 0;
+  }
+
+  .highlight {
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .loop-sections {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .section {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .section h3 {
+    background: #007bff;
+    color: #fff;
+    margin: -10px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .section ul li {
+    padding: 5px 10px;
+    margin: 5px 0;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    background: #e7f3ff;
+  }
+
+  button#next-step {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button#next-step:hover {
+    background: #0056b3;
+  }
+
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const callStack = document.getElementById("demo-call-stack");
+    const webApi = document.getElementById("demo-web-api");
+    const macroTask = document.getElementById("demo-macro-task");
+    const microTask = document.getElementById("demo-micro-task");
+    const codeArea = document.getElementById("demo-code-area");
+    const logArea = document.getElementById("demo-log-area");
+    const prevStepButton = document.getElementById("demo-prev-step");
+    const nextStepButton = document.getElementById("demo-next-step");
+
+    const codeLines = [
+      { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: [] },
+      { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: ["Task 1"] },
+      { line: 2, action: "Add Task 2 to Web API", stack: ["script"], macroTask: ["Run Script"], webApi: ["[callback: () => console.log('Task 2'), timer: 0)]"], log: ["Task 1"] },
+      { line: 2, action: "Add Web API to Macro Task Queue", stack: ["script"], macroTask: ["Run Script", "setTimeout Callback"], log: ["Task 1"] },
+      { line: 3, action: "Add Task 3 to Micro Task Queue", stack: ["script"], macroTask: ["Run Script", "setTimeout Callback"], microTask: ["Promise.then Callback"], log: ["Task 1"] },
+      { line: 4, action: "Execute Script", stack: ["script"], macroTask: ["Run Script", "setTimeout Callback"], microTask: ["Promise.then Callback"], log: ["Task 1"] },
+      { line: 4, action: "Log Task 4", stack: ["script"], macroTask: ["Run Script", "setTimeout Callback"], microTask: ["Promise.then Callback"], log: ["Task 1", "Task 4"] },
+      { line: 4, action: "Remove Stack", macroTask: ["setTimeout Callback"], microTask: ["Promise.then Callback"], log: ["Task 1", "Task 4"] },
+      { line: 3, action: "Add Micro Task to Stack", stack: ["Promise.then Callback"], macroTask: ["setTimeout Callback"], microTask: [], log: ["Task 1", "Task 4"] },
+      { line: 3, action: "Log Task 3", stack: ["Promise.then Callback"], macroTask: [ "setTimeout Callback"], microTask: [], log: ["Task 1", "Task 4", "Task 3"] },
+      { line: 3, action: "Remove Micro Task", stack: [], macroTask: ["setTimeout Callback"], log: ["Task 1", "Task 4", "Task 3"] },
+      { line: 2, action: "Add Macro Task to Stack", stack: ["setTimeout Callback"], macroTask: [], log: ["Task 1", "Task 4", "Task 3"] },
+      { line: 2, action: "Log Task 2", stack: ["setTimeout Callback"], macroTask: [], log: ["Task 1", "Task 4", "Task 3", "Task 2"] },
+      { line: 999, action: "Complete", stack: [], macroTask: [], log: ["Task 1", "Task 4", "Task 3", "Task 2"] },
+    ];
+
+    let currentStep = 0;
+
+    function highlightCode(lineNumber) {
+      const lines = codeArea.innerText.split("\n");
+      console.log({lines})
+      codeArea.innerHTML = lines
+        .map((line, index) => (index + 1 === lineNumber ? `<span class="highlight">${line}</span>` : line))
+        .join("\n");
+    }
+
+    function renderStep(step) {
+      callStack.innerHTML = step.stack?.map((task) => `<li>${task}</li>`).join("") || "";
+      webApi.innerHTML = step.webApi?.map((task) => `<li>${task}</li>`).join("") || "";
+      macroTask.innerHTML = step.macroTask?.map((task) => `<li>${task}</li>`).join("") || "";
+      microTask.innerHTML = step.microTask?.map((task) => `<li>${task}</li>`).join("") || "";
+      logArea.innerHTML = step.log?.join("\n");
+
+      highlightCode(step.line);
+    }
+
+    prevStepButton.addEventListener("click", () => {
+      if (currentStep < 1) {
+        return;
+      }
+      currentStep -= 1;
+      renderStep(codeLines[currentStep]);
+    });
+    nextStepButton.addEventListener("click", () => {
+      if (currentStep < codeLines.length -1) {
+        currentStep++;
+        renderStep(codeLines[currentStep]);
+      } else {
+        alert("Event loop 과정이 완료되었습니다!");
+        currentStep = 0;
+        renderStep(codeLines[currentStep]);
+      }
+    });
+
+    // Initialize
+    renderStep(codeLines[currentStep]);
+  });
+
+</script>
