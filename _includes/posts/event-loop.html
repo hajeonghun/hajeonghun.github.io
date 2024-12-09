@@ -1,5 +1,5 @@
 <div class="event-loop-container">
-  <h3>Event Loop 시각화</h3>
+  <h3 id="event-loop-visualization">Event Loop 시각화</h3>
   <div class="code-area">
     <pre><code id="demo-code-area">console.log("Task 1");
 setTimeout(() => console.log("Task 2"), 0);
@@ -10,7 +10,7 @@ console.log("Task 4");</code></pre>
   <button id="demo-prev-step">Prev Step</button>
   <button id="demo-next-step">Next Step</button>
 
-  <h3>Log</h3>
+  <h3 data-toc-skip>Log</h3>
   <div class="code-area">
     <pre><code id="demo-log-area"></code></pre>
   </div>
@@ -18,19 +18,19 @@ console.log("Task 4");</code></pre>
 
   <div class="loop-sections">
     <div class="section stack">
-      <h3>Call Stack</h3>
+      <h3 data-toc-skip>Call Stack</h3>
       <ul id="demo-call-stack" style="padding-left: 0"></ul>
     </div>
     <div class="section api">
-      <h3>Web API</h3>
+      <h3 data-toc-skip>Web API</h3>
       <ul id="demo-web-api"  style="padding-left: 0"></ul>
     </div>
     <div class="section macro-task">
-      <h3>Macro Task Queue</h3>
+      <h3 data-toc-skip>Macro Task Queue</h3>
       <ul id="demo-macro-task"  style="padding-left: 0"></ul>
     </div>
     <div class="section micro-task">
-      <h3>Micro Task Queue</h3>
+      <h3 data-toc-skip>Micro Task Queue</h3>
       <ul id="demo-micro-task"  style="padding-left: 0"></ul>
     </div>
   </div>
