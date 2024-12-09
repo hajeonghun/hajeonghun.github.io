@@ -115,7 +115,8 @@ console.log("Task 4");</code></pre>
 
 </style>
 
-<script type="module">
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
     const callStack = document.getElementById("demo-call-stack");
     const webApi = document.getElementById("demo-web-api");
     const macroTask = document.getElementById("demo-macro-task");
@@ -125,7 +126,6 @@ console.log("Task 4");</code></pre>
     const prevStepButton = document.getElementById("demo-prev-step");
     const nextStepButton = document.getElementById("demo-next-step");
 
-    console.log({callStack, webApi, macroTask, microTask, codeArea, logArea, prevStepButton, nextStepButton})
     const codeLines = [
       { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: [] },
       { line: 1, action: "Log Task 1", stack: ["script"], macroTask: ["Run Script"], log: ["Task 1"] },
@@ -147,7 +147,6 @@ console.log("Task 4");</code></pre>
 
     function highlightCode(lineNumber) {
       const lines = codeArea.innerText.split("\n");
-      console.log({lines})
       codeArea.innerHTML = lines
         .map((line, index) => (index + 1 === lineNumber ? `<span class="highlight">${line}</span>` : line))
         .join("\n");
@@ -183,5 +182,6 @@ console.log("Task 4");</code></pre>
 
     // Initialize
     renderStep(codeLines[currentStep]);
+  });
 
 </script>
